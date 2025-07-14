@@ -1,0 +1,20 @@
+---Create a pod for nginx---
+   Kubectl run nginx --image=nginx --port=80
+   kubectl get po
+
+----want to expose the nginx  individual pod to external word using Imperative-----
+targetport is the where the application runs
+port is the virtual port
+   kubectl expose po nginx --name mysvc --type=NodePort --port=80 --target-port=80
+   kubectl get svc   [u can see mysvc with NodePort got create]
+get node IP
+   kubectl get no -o wide
+Initializing
+   curl Internal-IP:Node-Port IP    [u can access nginx homepage]
+To genetrate the yaml
+                             name of svc   type of svc
+   kubectl expose po nginx --name mysvc --type=NodePort --port=80 --target-port=80 --dry-run=client -o yaml > sevice.yaml
+Enter in the browser
+   curl Internal-IP:Node-Port IP
+(As we are using a kind cluster we need to bind the pod port with the host port to  access ,if we are using kubeadm we can directly access it)
+in kind we need to bind port in the similar way of docker --port hostport:containerport to access in browser
